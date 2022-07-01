@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useRecoilValue } from "recoil";
 import { Formik, Form, Field } from "formik";
+import { useNavigate } from "react-router-dom";
 import { Button, Label, Header } from "@maxtrodaro/common";
 
 import api from "../../services/api";
@@ -10,12 +11,16 @@ import { userSession } from "../../hooks/userSession/index";
 export const LoginPage = () => {
   const usersSelector = useRecoilValue(usersMap);
   const { handleSignin } = userSession();
+  const navigate = useNavigate();
 
   const handleSubmit = useCallback(
     async (values) => {
       await api
         .get(`/user/${values.user}`)
-        .then(({ data }) => handleSignin(data))
+        .then(({ data }) => {
+          handleSignin(data);
+          navigate("/home");
+        })
         .catch((err) => console.log("err", err));
     },
     [handleSignin]
