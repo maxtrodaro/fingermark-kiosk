@@ -1,0 +1,82 @@
+[
+  {
+    "serialKey": "3255",
+    "description": "Kiosk Godoy",
+    "isKioskClosed": false,
+    "storeOpensAt": "09:00",
+    "storeClosesAt": "19:00",
+    "id": "0"
+  },
+  {
+    "serialKey": "4616",
+    "description": "Kiosk Dog",
+    "isKioskClosed": true,
+    "storeOpensAt": "00:00",
+    "storeClosesAt": "23:59",
+    "id": "1"
+  },
+  {
+    "serialKey": "5809",
+    "description": "Kiosk Test",
+    "isKioskClosed": false,
+    "storeOpensAt": "08:00",
+    "storeClosesAt": "18:00",
+    "id": "2"
+  },
+  {
+    "serialKey": "4488",
+    "description": "Kiosk Zezinho",
+    "isKioskClosed": false,
+    "storeOpensAt": "08:00",
+    "storeClosesAt": "22:00",
+    "id": "3"
+  },
+  {
+    "serialKey": "4242",
+    "description": "Kiosk Silva",
+    "isKioskClosed": true,
+    "storeOpensAt": "09:00",
+    "storeClosesAt": "19:00",
+    "id": "4"
+  },
+  {
+    "serialKey": "9270",
+    "description": "Kiosk Machado",
+    "isKioskClosed": true,
+    "storeOpensAt": "18:00",
+    "storeClosesAt": "23:00",
+    "id": "5"
+  },
+  {
+    "serialKey": "7435",
+    "description": "Kiosk Assis",
+    "isKioskClosed": false,
+    "storeOpensAt": "10:00",
+    "storeClosesAt": "21:00",
+    "id": "6"
+  },
+  {
+    "serialKey": "9276",
+    "description": "Kiosk Martins",
+    "isKioskClosed": true,
+    "storeOpensAt": "09:00",
+    "storeClosesAt": "19:00",
+    "id": "7"
+  },
+  {
+    "serialKey": "2657",
+    "description": "Kiosk Pedro",
+    "isKioskClosed": true,
+    "storeOpensAt": "09:00",
+    "storeClosesAt": "21:00",
+    "id": "8"
+  },
+  {
+    "serialKey": "7758",
+    "description": "Kiosk Gabriel",
+    "isKioskClosed": true,
+    "storeOpensAt": "00:00",
+    "storeClosesAt": "23:59",
+    "id": "9"
+  }
+]

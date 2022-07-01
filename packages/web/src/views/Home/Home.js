@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
-import { Button, Heading, Header, Table, Container } from "@maxtrodaro/common";
+import { Button, Header, Table, Container, Filter } from "@maxtrodaro/common";
 
 import { kiosksFilterState } from "../../recoil/atoms/kiosks";
 import { kiosksMap } from "../../recoil/selectors/kiosks";
@@ -10,28 +10,42 @@ export const HomePage = () => {
   const listKiosks = useRecoilValue(kiosksMap);
   const filteredKiosks = useRecoilValue(kiosksFilterState);
 
-  const handleFilter = async (state) => {
+  const handleButtonFilters = (state) => {
     const filteredKiosk =
       state === "all"
         ? listKiosks
-        : listKiosks.filter((item) => item.isKioskClosed === state);
+        : listKiosks.filter((kiosk) => kiosk.isKioskClosed === state);
 
     setFilter(filteredKiosk);
   };
 
-  console.log("filteredKiosks1234", filteredKiosks);
-  console.log("listKiosks1234", listKiosks);
+  const handleSearch = () => {
+    const value = document.getElementById("search").value;
+
+    const filteredKiosk = listKiosks.filter(
+      (kiosk) =>
+        kiosk.serialKey.includes(value) ||
+        kiosk.description.includes(value) ||
+        kiosk.id.includes(value)
+    );
+
+    document.getElementById("search").value = "";
+
+    setFilter(filteredKiosk);
+  };
 
   return (
     <>
       <Header />
       <Container>
-        <div className="flex items-center justify-end gap-2.5 my-5">
-          <Button onClick={() => handleFilter("all")}>All</Button>
-          <Button onClick={() => handleFilter(false)}>Closed</Button>
-          <Button onClick={() => handleFilter(true)}>Open</Button>
+        <div className="flex items-center justify-end gap-2.5 my-5 px-4">
+          <Filter onClick={handleSearch} />
+          <Button onClick={() => handleButtonFilters("all")}>All</Button>
+          <Button onClick={() => handleButtonFilters(false)}>Closed</Button>
+          <Button onClick={() => handleButtonFilters(true)}>Open</Button>
         </div>
         <Table
+          tag="kiosks"
           th={Object.keys(filteredKiosks ? filteredKiosks[0] : listKiosks[0])}
           td={filteredKiosks || listKiosks}
         />

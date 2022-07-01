@@ -5,7 +5,7 @@ export const NotFoundPage = () => {
   return (
     <>
       <h1>Not Found</h1>
-      <Link to="/">Voltar para home</Link>
+      <Link to="/home">Voltar para home</Link>
     </>
   );
 };
