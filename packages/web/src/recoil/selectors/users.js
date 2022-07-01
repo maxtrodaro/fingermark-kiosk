@@ -1,14 +1,14 @@
 import { selector } from "recoil";
 
 import api from "../../services/api";
-import { usersList } from "../atoms/users";
+import { usersState } from "../atoms/users";
 
 export const usersMap = selector({
   key: "usersMap",
   get: async ({ get }) => {
-    const _usersList = get(usersList);
+    const _usersState = get(usersState);
 
-    console.log("testeGodoy", _usersList);
+    console.log("testeGodoy", _usersState);
 
     const response = await api.get("/user");
 

@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import { useRecoilValue } from "recoil";
 import { Formik, Form, Field } from "formik";
 import { Button, Label, Header } from "@maxtrodaro/common";
 
-import { usersList } from "../../recoil/atoms/users";
+import api from "../../services/api";
 import { usersMap } from "../../recoil/selectors/users";
+import { userSession } from "../../hooks/userSession/index";
 
 export const LoginPage = () => {
-  const usersAtom = useRecoilValue(usersList);
   const usersSelector = useRecoilValue(usersMap);
+  const { handleSignin } = userSession();
 
-  console.log("usersAtom", usersAtom);
-  console.log("usersSelector", usersSelector);
-
-  const handleSubmit = (values) => {
-    console.log("values12", values);
-  };
+  const handleSubmit = useCallback(
+    async (values) => {
+      await api
+        .get(`/user/${values.user}`)
+        .then(({ data }) => handleSignin(data))
+        .catch((err) => console.log("err", err));
+    },
+    [handleSignin]
+  );
 
   return (
     <>
@@ -24,7 +28,7 @@ export const LoginPage = () => {
         <div className="relative w-full my-6 mx-auto max-w-2xl">
           <div className="border-0 rounded-lg shadow-[0_0_20px_10px_rgba(0,0,0,0.3)] relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-              <h3 className="text-3xl font=semibold">Selecione um usuário</h3>
+              <h3 className="text-3xl font=semibold">Select any user</h3>
             </div>
             <Formik
               initialValues={{}}
@@ -48,7 +52,7 @@ export const LoginPage = () => {
                   })}
                 </div>
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                  <Button type="submit">Entrar</Button>
+                  <Button type="submit">Login</Button>
                 </div>
               </Form>
             </Formik>
