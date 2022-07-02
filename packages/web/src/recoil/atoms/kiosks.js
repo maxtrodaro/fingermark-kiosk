@@ -7,5 +7,5 @@ export const kiosksState = atom({
 
 export const kiosksFilterState = atom({
   key: "kiosksFilterState",
-  default: null,
+  default: [],
 });

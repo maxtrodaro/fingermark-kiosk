@@ -24,13 +24,13 @@ const Table = (props) => {
           {props.tag == "kiosks" ? (
             <>
               <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center">
+                Log
+              </th>
+              <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center">
                 Editar
               </th>
               <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center">
                 Excluir
-              </th>
-              <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center">
-                Log
               </th>
             </>
           ) : null}
@@ -59,20 +59,6 @@ const Table = (props) => {
             </td>
             {props.tag == "kiosks" ? (
               <>
-                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer">
-                  <img
-                    className="block m-auto"
-                    alt="Imagem de editar"
-                    src={EditImage}
-                  />
-                </td>
-                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer">
-                  <img
-                    className="block m-auto"
-                    alt="Imagem de deletar"
-                    src={DeleteImage}
-                  />
-                </td>
                 <td
                   className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer"
                   onClick={() => navigate(`/log/${item.id}`)}
@@ -81,6 +67,25 @@ const Table = (props) => {
                     className="block m-auto"
                     alt="Imagem de log"
                     src={LogImage}
+                  />
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer">
+                  <img
+                    className="block m-auto"
+                    alt="Imagem de editar"
+                    src={EditImage}
+                  />
+                </td>
+                <td
+                  className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer"
+                  onClick={() =>
+                    props.setOpenModal({ open: true, id: item.id })
+                  }
+                >
+                  <img
+                    className="block m-auto"
+                    alt="Imagem de deletar"
+                    src={DeleteImage}
                   />
                 </td>
               </>
