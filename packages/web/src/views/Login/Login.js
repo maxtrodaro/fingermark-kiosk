@@ -6,11 +6,11 @@ import { Button, Label, Header, Modal } from "@maxtrodaro/common";
 
 import api from "../../services/api";
 import { usersMap } from "../../recoil/selectors/users";
-import { userSession } from "../../hooks/userSession/index";
+import { userSession } from "../../hooks/userSession";
 
 export const LoginPage = () => {
   const usersSelector = useRecoilValue(usersMap);
-  const { handleSignin } = userSession();
+  const { handleSignin, handleSignout } = userSession();
   const navigate = useNavigate();
 
   const handleSubmit = useCallback(
@@ -28,7 +28,7 @@ export const LoginPage = () => {
 
   return (
     <>
-      <Header />
+      <Header handleSignout={handleSignout} />
       <Modal title="Select any user">
         <Formik initialValues={{}} onSubmit={(values) => handleSubmit(values)}>
           <Form>

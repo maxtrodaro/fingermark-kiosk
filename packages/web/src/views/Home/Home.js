@@ -15,6 +15,7 @@ import {
 import { kiosksFilterState } from "../../recoil/atoms/kiosks";
 import { kiosksMap } from "../../recoil/selectors/kiosks";
 import api from "../../services/api";
+import { userSession } from "../../hooks/userSession";
 
 export const HomePage = () => {
   const [openModal, setOpenModal] = useState({ open: false, id: "" });
@@ -22,6 +23,7 @@ export const HomePage = () => {
   const listKiosks = useRecoilValue(kiosksMap);
   const filteredKiosks = useRecoilValue(kiosksFilterState);
   const navigate = useNavigate();
+  const { handleSignout } = userSession();
 
   const handleButtonFilters = (state) => {
     const filteredKiosk =
@@ -62,7 +64,7 @@ export const HomePage = () => {
 
   return (
     <>
-      <Header />
+      <Header handleSignout={handleSignout} />
       <Container>
         <div className="flex items-center justify-end gap-2.5 my-5 px-4">
           <Filter onClick={handleSearch} />
