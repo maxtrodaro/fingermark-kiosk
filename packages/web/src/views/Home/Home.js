@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { Formik, Form } from "formik";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useRecoilValue, useRecoilState, useRecoilCallback } from "recoil";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
   Header,
@@ -24,6 +23,10 @@ export const HomePage = () => {
   const filteredKiosks = useRecoilValue(kiosksFilterState);
   const navigate = useNavigate();
   const { handleSignout } = userSession();
+  const { search } = useLocation();
+  const refreshKioskList = useRecoilCallback(({ refresh }) => () =>
+    refresh(kiosksMap)
+  );
 
   const handleButtonFilters = (state) => {
     const filteredKiosk =
@@ -59,8 +62,12 @@ export const HomePage = () => {
         setFilter(filteredKiosk);
         setOpenModal({ open: false, id: "" });
       })
-      .catch((err) => console.log("err", err));
+      .catch((err) => console.error("err", err));
   };
+
+  useEffect(() => {
+    search.indexOf("update") !== -1 && refreshKioskList();
+  }, [search]);
 
   return (
     <>

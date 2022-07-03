@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useRecoilValue } from "recoil";
-import { Formik, Form, Field } from "formik";
+import { Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import { Button, Label, Header, Modal } from "@maxtrodaro/common";
 
@@ -21,7 +21,7 @@ export const LoginPage = () => {
           handleSignin(data);
           navigate("/home");
         })
-        .catch((err) => console.log("err", err));
+        .catch((err) => console.error("err", err));
     },
     [handleSignin]
   );

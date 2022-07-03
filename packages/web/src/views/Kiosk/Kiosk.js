@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { Formik, Form } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Header,
@@ -18,9 +18,11 @@ import { userSession } from "../../hooks/userSession";
 export const KioskPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [formValues, setFormValues] = useState({});
+  const [initialValues, setInitialValues] = useState({});
   const listKiosks = useRecoilValue(kiosksMap);
   const navigate = useNavigate();
   const { handleSignout } = userSession();
+  const { kioskId } = useParams();
 
   const handleSubmit = useCallback(
     (values) => {
@@ -31,30 +33,71 @@ export const KioskPage = () => {
   );
 
   const handleConfirm = useCallback(async () => {
-    const lastId = parseInt(listKiosks.slice(-1)[0].id);
-
-    const newFormValues = {
+    let newFormValues = {
       ...formValues,
       isKioskClosed: formValues.isKioskClosed === "Yes" ? false : true,
-      id: (lastId + 1).toString(),
     };
 
-    await api
-      .post("/kiosk", newFormValues)
-      .then(({ data }) => {
-        alert("New Kiosk Created Succesfully");
-        navigate("/home");
-      })
-      .catch((err) => console.log("err", err));
+    if (!kioskId) {
+      const lastId = parseInt(listKiosks.slice(-1)[0].id);
+
+      newFormValues = {
+        ...newFormValues,
+        id: (lastId + 1).toString(),
+      };
+      await api
+        .post("/kiosk", newFormValues)
+        .then(() => {
+          alert("New Kiosk Created Succesfully");
+        })
+        .catch((err) => console.error("err", err));
+    } else {
+      await api
+        .put(`/kiosk/${kioskId}`, newFormValues)
+        .then(() => {
+          alert(`Kiosk ID ${kioskId} Edited Succesfully`);
+        })
+        .catch((err) => console.error("err", err));
+    }
+    navigate("/home?update=true");
   }, [formValues]);
+
+  useEffect(() => {
+    async function setCurrentKiosk() {
+      await api
+        .get(`/kiosk/${kioskId}`)
+        .then(({ data }) => {
+          const formatedData = {
+            ...data,
+            isKioskClosed: data.isKioskClosed === false ? "Yes" : "No",
+          };
+          setInitialValues(formatedData);
+        })
+        .catch((err) => console.error("err", err));
+    }
+    kioskId && setCurrentKiosk();
+  }, [kioskId, setInitialValues]);
 
   return (
     <>
       <Header handleSignout={handleSignout} />
       <Container>
-        <Heading>Create new Kiosk</Heading>
-        <Formik initialValues={{}} onSubmit={(values) => handleSubmit(values)}>
+        <Heading>{kioskId ? "Edit Kiosk" : "Create new Kiosk"}</Heading>
+        <Formik
+          enableReinitialize
+          initialValues={initialValues}
+          onSubmit={(values) => handleSubmit(values)}
+        >
           <Form>
+            {kioskId && (
+              <InputForm
+                className="disabled:opacity-50"
+                disabled={true}
+                name="id"
+                label="Id"
+                type="text"
+              />
+            )}
             <InputForm
               name="serialKey"
               label="Serial Key"
