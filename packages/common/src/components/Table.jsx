@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import Button from "./Button";
 import EditImage from "../assets/img/edit.png";
 import DeleteImage from "../assets/img/delete.png";
 import LogImage from "../assets/img/log.png";
+import ViewImage from "../assets/img/view.png";
 
 const Table = (props) => {
   const navigate = useNavigate();
@@ -27,52 +27,55 @@ const Table = (props) => {
                 Log
               </th>
               <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center">
-                Editar
+                Edit
               </th>
               <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center">
-                Excluir
+                Delete
               </th>
             </>
-          ) : null}
+          ) : (
+            <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center">
+              See More
+            </th>
+          )}
         </tr>
       </thead>
       <tbody className="bg-white">
-        {props?.td.map((item) => (
-          <tr key={item.id}>
-            <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
-              {item.serialKey}
-            </td>
-            <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
-              {item.description}
-            </td>
-            <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
-              {item.isKioskClosed.toString()}
-            </td>
-            <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
-              {item.storeOpensAt}
-            </td>
-            <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
-              {item.storeClosesAt}
-            </td>
-            <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
-              {item.id}
-            </td>
-            {props.tag == "kiosks" ? (
-              <>
+        {props.tag == "kiosks"
+          ? props?.td.map((item) => (
+              <tr key={item.id}>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.serialKey}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.description}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.isKioskClosed.toString()}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.storeOpensAt}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.storeClosesAt}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.id}
+                </td>
                 <td
                   className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer"
                   onClick={() => navigate(`/log/${item.id}`)}
                 >
                   <img
                     className="block m-auto"
-                    alt="Imagem de log"
+                    alt="Log Image"
                     src={LogImage}
                   />
                 </td>
                 <td className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer">
                   <img
                     className="block m-auto"
-                    alt="Imagem de editar"
+                    alt="Edit Image"
                     src={EditImage}
                   />
                 </td>
@@ -84,14 +87,41 @@ const Table = (props) => {
                 >
                   <img
                     className="block m-auto"
-                    alt="Imagem de deletar"
+                    alt="Delete Image"
                     src={DeleteImage}
                   />
                 </td>
-              </>
-            ) : null}
-          </tr>
-        ))}
+              </tr>
+            ))
+          : props?.td.map((item) => (
+              <tr key={item.id}>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.action}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.description}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.kioskId}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.userId}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.id}
+                </td>
+                <td
+                  className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer"
+                  onClick={() => navigate(`/log/${item.id}`)}
+                >
+                  <img
+                    className="block m-auto"
+                    alt="View Image"
+                    src={ViewImage}
+                  />
+                </td>
+              </tr>
+            ))}
       </tbody>
     </table>
   );
