@@ -6,5 +6,18 @@ import Table from "./components/Table";
 import Container from "./components/Container";
 import Filter from "./components/Filter";
 import Modal from "./components/Modal";
+import InputForm from "./components/InputForm";
+import RadioForm from "./components/RadioForm";
 
-export { Button, Heading, Label, Header, Table, Container, Filter, Modal };
+export {
+  Button,
+  Heading,
+  Label,
+  Header,
+  Table,
+  Container,
+  Filter,
+  Modal,
+  InputForm,
+  RadioForm,
+};

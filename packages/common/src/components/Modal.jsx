@@ -1,4 +1,5 @@
 import React from "react";
+import { Formik, Form } from "formik";
 
 const Modal = (props) => {
   return (
@@ -8,7 +9,18 @@ const Modal = (props) => {
           <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
             <h3 className="text-3xl font=semibold">{props.title}</h3>
           </div>
-          {props.children}
+          <Formik initialValues={props.initialValues} onSubmit={props.onSubmit}>
+            <Form>
+              {props.bodyText ? (
+                <div className="relative p-6 flex-auto">
+                  <p className="text-primary font-bold text-lg mt-0 mb-2 font-sans">
+                    {props.bodyText}
+                  </p>
+                </div>
+              ) : null}
+              {props.children}
+            </Form>
+          </Formik>
         </div>
       </div>
     </div>

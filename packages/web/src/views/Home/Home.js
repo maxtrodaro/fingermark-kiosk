@@ -89,25 +89,21 @@ export const HomePage = () => {
         )}
       </Container>
       {openModal?.open ? (
-        <Modal title="Delete Kiosk">
-          <Formik initialValues={{}} onSubmit={() => handleDelete(openModal)}>
-            <Form>
-              <div className="relative p-6 flex-auto">
-                <p className="text-primary font-bold text-lg mt-0 mb-2 font-sans">
-                  Are you sure you want to delete the Kiosk ID {openModal.id}?
-                </p>
-              </div>
-              <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b gap-4">
-                <button
-                  onClick={() => setOpenModal({ open: false, id: "" })}
-                  className="bg-transparent text-primary font-semibold py-2 px-4 border border-primary rounded-full"
-                >
-                  Cancel
-                </button>
-                <Button type="submit">Confirm</Button>
-              </div>
-            </Form>
-          </Formik>
+        <Modal
+          title="Delete Kiosk"
+          initialValues={{}}
+          onSubmit={() => handleDelete(openModal)}
+          bodyText={`Are you sure you want to delete the Kiosk ID ${openModal.id}?`}
+        >
+          <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b gap-4">
+            <button
+              onClick={() => setOpenModal({ open: false, id: "" })}
+              className="bg-transparent text-primary font-semibold py-2 px-4 border border-primary rounded-full"
+            >
+              Cancel
+            </button>
+            <Button type="submit">Confirm</Button>
+          </div>
         </Modal>
       ) : null}
     </>

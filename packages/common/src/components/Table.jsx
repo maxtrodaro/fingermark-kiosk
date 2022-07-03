@@ -72,7 +72,10 @@ const Table = (props) => {
                     src={LogImage}
                   />
                 </td>
-                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer">
+                <td
+                  className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer"
+                  onClick={() => navigate(`/kiosk/${item.id}`)}
+                >
                   <img
                     className="block m-auto"
                     alt="Edit Image"
