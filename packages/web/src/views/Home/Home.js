@@ -92,8 +92,8 @@ export const HomePage = () => {
         <div className="flex items-center justify-end gap-2.5 my-5 px-4">
           <Filter initialValues={{}} onSubmit={handleSearch} />
           <Button onClick={() => handleButtonFilters("all")}>All</Button>
-          <Button onClick={() => handleButtonFilters(false)}>Closed</Button>
-          <Button onClick={() => handleButtonFilters(true)}>Open</Button>
+          <Button onClick={() => handleButtonFilters(true)}>Closed</Button>
+          <Button onClick={() => handleButtonFilters(false)}>Open</Button>
         </div>
         {filteredKiosks.length || listKiosks.length ? (
           <Table
