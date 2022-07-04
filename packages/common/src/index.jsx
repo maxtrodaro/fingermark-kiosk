@@ -8,6 +8,7 @@ import Filter from "./components/Filter";
 import Modal from "./components/Modal";
 import InputForm from "./components/InputForm";
 import RadioForm from "./components/RadioForm";
+import Loading from "./components/Loading";
 
 export {
   Button,
@@ -20,4 +21,5 @@ export {
   Modal,
   InputForm,
   RadioForm,
+  Loading,
 };

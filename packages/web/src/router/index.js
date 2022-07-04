@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Loading } from "@maxtrodaro/common";
 
 import Home from "../views/Home";
 import Login from "../views/Login";
@@ -9,7 +10,7 @@ import NotFound from "../views/NotFound";
 
 const Router = () => (
   <BrowserRouter>
-    <Suspense fallback={<div>Loading ...</div>}>
+    <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
