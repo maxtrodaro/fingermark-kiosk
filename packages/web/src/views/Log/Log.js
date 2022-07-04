@@ -26,17 +26,13 @@ export const LogPage = () => {
     refresh(logsMap)
   );
 
-  const handleSearch = () => {
-    const value = document.getElementById("search").value;
-
+  const handleSearch = (data) => {
     const filteredLog = listLogs.filter(
       (log) =>
-        log.action.includes(value) ||
-        log.kioskId.includes(value) ||
-        log.userId.includes(value)
+        log.action.includes(data.search) ||
+        log.kioskId.includes(data.search) ||
+        log.userId.includes(data.search)
     );
-
-    document.getElementById("search").value = "";
 
     setFilter(filteredLog);
   };
@@ -62,7 +58,7 @@ export const LogPage = () => {
   return (
     <>
       <Header handleSignout={handleSignout} />
-      <Container>
+      <Container className="my-6">
         <div className="flex items-center justify-end gap-2.5 my-5 px-4">
           <Filter onClick={handleSearch} />
           <Button

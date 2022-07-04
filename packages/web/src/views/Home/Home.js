@@ -45,17 +45,13 @@ export const HomePage = () => {
     setFilter(filteredKiosk);
   };
 
-  const handleSearch = () => {
-    const value = document.getElementById("search").value;
-
+  const handleSearch = (data) => {
     const filteredKiosk = listKiosks.filter(
       (kiosk) =>
-        kiosk.serialKey.includes(value) ||
-        kiosk.description.includes(value) ||
-        kiosk.id.includes(value)
+        kiosk.serialKey.toLowerCase().includes(data.search) ||
+        kiosk.description.toLowerCase().includes(data.search) ||
+        kiosk.id.toLowerCase().includes(data.search)
     );
-
-    document.getElementById("search").value = "";
 
     setFilter(filteredKiosk);
   };
@@ -92,9 +88,9 @@ export const HomePage = () => {
   return (
     <>
       <Header handleSignout={handleSignout} />
-      <Container>
+      <Container className="my-6">
         <div className="flex items-center justify-end gap-2.5 my-5 px-4">
-          <Filter onClick={handleSearch} />
+          <Filter initialValues={{}} onSubmit={handleSearch} />
           <Button onClick={() => handleButtonFilters("all")}>All</Button>
           <Button onClick={() => handleButtonFilters(false)}>Closed</Button>
           <Button onClick={() => handleButtonFilters(true)}>Open</Button>

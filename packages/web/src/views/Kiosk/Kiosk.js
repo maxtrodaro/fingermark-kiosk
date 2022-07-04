@@ -111,7 +111,7 @@ export const KioskPage = () => {
   return (
     <>
       <Header handleSignout={handleSignout} />
-      <Container>
+      <Container className="my-6">
         <Heading>{kioskId ? "Edit Kiosk" : "Create new Kiosk"}</Heading>
         <Formik
           enableReinitialize

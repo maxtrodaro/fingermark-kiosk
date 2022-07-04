@@ -57,8 +57,11 @@ const Header = (props) => {
           <div
             className="hidden peer-hover:flex hover:flex
          w-[250px]
-         flex-col bg-green drop-shadow-lg absolute right-0"
+         flex-col bg-green drop-shadow-lg absolute right-0 z-10"
           >
+            <Link className="px-5 py-3 text-white" to="/home">
+              See all Kiosks
+            </Link>
             <Link className="px-5 py-3 text-white" to="/kiosk">
               Create New Kiosk
             </Link>
