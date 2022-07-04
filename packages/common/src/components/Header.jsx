@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Container from "./Container";
 
-const Header = (props) => {
+const Header = ({ handleSignout }) => {
   return (
     <header className="flex items-center justify-between flex-wrap p-6 bg-primary">
       <Container className="flex justify-between">
@@ -71,7 +71,7 @@ const Header = (props) => {
             <Link
               className="px-5 py-3 text-white"
               to="/"
-              onClick={props.handleSignout}
+              onClick={handleSignout}
             >
               Logout
             </Link>

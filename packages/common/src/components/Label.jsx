@@ -1,12 +1,12 @@
 import React from "react";
 
-const Label = (props) => {
+const Label = ({ htmlFor, children }) => {
   return (
     <label
       className="form-check-label inline-block text-gray-800"
-      htmlFor={props.for}
+      htmlFor={htmlFor}
     >
-      {props.children}
+      {children}
     </label>
   );
 };

@@ -1,10 +1,10 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 
-const Filter = (props) => {
+const Filter = ({ initialValues, onSubmit }) => {
   return (
     <div className="flex items-center w-full">
-      <Formik initialValues={props.initialValues} onSubmit={props.onSubmit}>
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
         <Form className="flex border-2 rounded w-full">
           <Field
             type="text"

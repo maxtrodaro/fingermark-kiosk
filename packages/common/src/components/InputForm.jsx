@@ -1,16 +1,16 @@
 import React from "react";
 import { Field } from "formik";
 
-const InputForm = (props) => {
+const InputForm = ({ className, disabled, label, name, placeholder, type }) => {
   return (
     <fieldset className="flex flex-col gap-2 mb-4">
-      <label>{props.label}</label>
+      <label>{label}</label>
       <Field
-        className={props.className}
-        disabled={props.disabled}
-        name={props.name}
-        type={props.type}
-        placeholder={props.placeholder}
+        className={className}
+        disabled={disabled}
+        name={name}
+        type={type}
+        placeholder={placeholder}
       />
     </fieldset>
   );

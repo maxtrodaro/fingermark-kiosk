@@ -5,14 +5,14 @@ import EditImage from "../assets/img/edit.png";
 import DeleteImage from "../assets/img/delete.png";
 import LogImage from "../assets/img/log.png";
 
-const Table = (props) => {
+const Table = ({ values, tag, setOpenModal }) => {
   const navigate = useNavigate();
 
   return (
     <table className="table-auto w-full">
       <thead>
         <tr>
-          {Object.keys(props?.values[0]).map((item, index) => (
+          {Object.keys(values[0]).map((item, index) => (
             <th
               key={index}
               className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center"
@@ -20,7 +20,7 @@ const Table = (props) => {
               {item}
             </th>
           ))}
-          {props.tag == "kiosks" && (
+          {tag == "kiosks" && (
             <>
               <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center">
                 Log
@@ -36,8 +36,8 @@ const Table = (props) => {
         </tr>
       </thead>
       <tbody className="bg-white">
-        {props.tag == "kiosks"
-          ? props?.values.map((item) => (
+        {tag == "kiosks"
+          ? values.map((item) => (
               <tr key={item.id}>
                 <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
                   {item.serialKey}
@@ -82,9 +82,7 @@ const Table = (props) => {
                 </td>
                 <td
                   className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer"
-                  onClick={() =>
-                    props.setOpenModal({ open: true, id: item.id })
-                  }
+                  onClick={() => setOpenModal({ open: true, id: item.id })}
                 >
                   <img
                     className="block m-auto"
@@ -94,7 +92,7 @@ const Table = (props) => {
                 </td>
               </tr>
             ))
-          : props?.values.map((item) => (
+          : values.map((item) => (
               <tr key={item.id}>
                 <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
                   {item.action}

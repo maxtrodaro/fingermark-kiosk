@@ -45,7 +45,7 @@ export const LoginPage = () => {
                   value={user.id}
                   id={user.id}
                 />
-                <Label for="user">{user.name}</Label>
+                <Label htmlFor="user">{user.name}</Label>
               </div>
             );
           })}
