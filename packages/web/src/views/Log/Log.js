@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState, useRecoilCallback } from "recoil";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
@@ -22,6 +22,9 @@ export const LogPage = () => {
   const navigate = useNavigate();
   const { handleSignout } = userSession();
   const { kioskId } = useParams();
+  const refreshLogList = useRecoilCallback(({ refresh }) => () =>
+    refresh(logsMap)
+  );
 
   const handleSearch = () => {
     const value = document.getElementById("search").value;
@@ -39,13 +42,22 @@ export const LogPage = () => {
   };
 
   useEffect(() => {
-    if (kioskId) {
-      const filterLog = listLogs.filter(
-        (log) => log.kioskId === `kioskId ${kioskId}`
-      );
-      filterLog.length ? setFilter(filterLog) : setFilterEmpty(true);
+    if (!kioskId) return;
+
+    const filterLog = listLogs.filter(
+      (log) => log.kioskId === `kioskId ${kioskId}`
+    );
+    if (filterLog.length) {
+      setFilter(filterLog);
+      setFilterEmpty(false);
+    } else {
+      setFilterEmpty(true);
     }
-  }, [kioskId, setFilterEmpty]);
+  }, [kioskId, setFilterEmpty, listLogs]);
+
+  useEffect(() => {
+    refreshLogList();
+  }, [kioskId]);
 
   return (
     <>
@@ -66,10 +78,7 @@ export const LogPage = () => {
           filteredLogs.length || listLogs.length ? (
             <Table
               tag="logs"
-              th={Object.keys(
-                filteredLogs.length ? filteredLogs[0] : listLogs[0]
-              )}
-              td={filteredLogs.length ? filteredLogs : listLogs}
+              values={filteredLogs.length ? filteredLogs : listLogs}
             />
           ) : (
             <div className="flex items-center flex-col gap-4">

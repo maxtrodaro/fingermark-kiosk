@@ -12,7 +12,7 @@ const Table = (props) => {
     <table className="table-auto w-full">
       <thead>
         <tr>
-          {props?.th.map((item, index) => (
+          {Object.keys(props?.values[0]).map((item, index) => (
             <th
               key={index}
               className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-primary text-center"
@@ -37,7 +37,7 @@ const Table = (props) => {
       </thead>
       <tbody className="bg-white">
         {props.tag == "kiosks"
-          ? props?.td.map((item) => (
+          ? props?.values.map((item) => (
               <tr key={item.id}>
                 <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
                   {item.serialKey}
@@ -56,6 +56,9 @@ const Table = (props) => {
                 </td>
                 <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
                   {item.id}
+                </td>
+                <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
+                  {item.isOpenNow.toString()}
                 </td>
                 <td
                   className="border-b border-slate-100 p-4 pl-8 text-black text-center cursor-pointer"
@@ -91,7 +94,7 @@ const Table = (props) => {
                 </td>
               </tr>
             ))
-          : props?.td.map((item) => (
+          : props?.values.map((item) => (
               <tr key={item.id}>
                 <td className="border-b border-slate-100 p-4 pl-8 text-black text-center">
                   {item.action}

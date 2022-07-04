@@ -13,13 +13,16 @@ import {
 } from "@maxtrodaro/common";
 import api from "../../services/api";
 import { kiosksMap, kiosksMapFamily } from "../../recoil/selectors/kiosks";
+import { logsMap, logsMapFamily } from "../../recoil/selectors/logs";
 import { userSession } from "../../hooks/userSession";
+import { formatLogHelper } from "../../utils/formatLogHelper";
 
 export const KioskPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [formValues, setFormValues] = useState({});
   const [initialValues, setInitialValues] = useState({});
   const listKiosks = useRecoilValue(kiosksMap);
+  const listLogs = useRecoilValue(logsMap);
   const navigate = useNavigate();
   const { handleSignout } = userSession();
   const { kioskId } = useParams();
@@ -27,6 +30,10 @@ export const KioskPage = () => {
     ({ snapshot }) => async (kioskId) =>
       await snapshot.getPromise(kiosksMapFamily(kioskId))
   );
+  const createLog = useRecoilCallback(({ snapshot }) => (logData) =>
+    snapshot.getPromise(logsMapFamily(logData))
+  );
+  const userId = JSON.parse(localStorage.getItem("user"))?.id;
 
   const handleSubmit = useCallback(
     (values) => {
@@ -52,19 +59,41 @@ export const KioskPage = () => {
       await api
         .post("/kiosk", newFormValues)
         .then(() => {
-          alert("New Kiosk Created Succesfully");
+          const logData = formatLogHelper(
+            "Create Kiosk",
+            `The user ID ${userId} create the kiosk ID ${newFormValues.id}`,
+            newFormValues.id,
+            userId,
+            parseInt(listLogs.slice(-1)[0].id) + 1
+          );
+          createLog(logData).then((data) =>
+            data.status === 201
+              ? alert("New Kiosk Created Succesfully")
+              : console.error("err", data.statusText)
+          );
         })
         .catch((err) => console.error("err", err));
     } else {
       await api
         .put(`/kiosk/${kioskId}`, newFormValues)
         .then(() => {
-          alert(`Kiosk ID ${kioskId} Edited Succesfully`);
+          const logData = formatLogHelper(
+            "Edit Kiosk",
+            `The user ID ${userId} edit the kiosk ID ${kioskId}`,
+            kioskId,
+            userId,
+            parseInt(listLogs.slice(-1)[0].id) + 1
+          );
+          createLog(logData).then((data) =>
+            data.status === 201
+              ? alert(`Kiosk ID ${kioskId} Edited Succesfully`)
+              : console.error("err", data.statusText)
+          );
         })
         .catch((err) => console.error("err", err));
     }
     navigate("/home?update=true");
-  }, [formValues]);
+  }, [formValues, createLog, navigate]);
 
   useEffect(() => {
     async function setCurrentKiosk() {
@@ -77,7 +106,7 @@ export const KioskPage = () => {
       });
     }
     kioskId && setCurrentKiosk();
-  }, [kioskId]);
+  }, [kioskId, setInitialValues]);
 
   return (
     <>
@@ -144,7 +173,11 @@ export const KioskPage = () => {
           title="Confirm Kiosk"
           initialValues={{}}
           onSubmit={() => handleConfirm()}
-          bodyText="Are you sure you want to create a new kiosk?"
+          bodyText={
+            kioskId
+              ? "Are you sure you want to edit this kiosk?"
+              : "Are you sure you want to create a new kiosk?"
+          }
         >
           <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b gap-4">
             <button
