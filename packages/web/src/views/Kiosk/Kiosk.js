@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState, useRecoilCallback } from "recoil";
 import { Formik, Form } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -12,7 +12,7 @@ import {
   RadioForm,
 } from "@maxtrodaro/common";
 import api from "../../services/api";
-import { kiosksMap } from "../../recoil/selectors/kiosks";
+import { kiosksMap, kiosksMapFamily } from "../../recoil/selectors/kiosks";
 import { userSession } from "../../hooks/userSession";
 
 export const KioskPage = () => {
@@ -23,6 +23,10 @@ export const KioskPage = () => {
   const navigate = useNavigate();
   const { handleSignout } = userSession();
   const { kioskId } = useParams();
+  const refreshKioskList = useRecoilCallback(
+    ({ snapshot }) => async (kioskId) =>
+      await snapshot.getPromise(kiosksMapFamily(kioskId))
+  );
 
   const handleSubmit = useCallback(
     (values) => {
@@ -64,19 +68,16 @@ export const KioskPage = () => {
 
   useEffect(() => {
     async function setCurrentKiosk() {
-      await api
-        .get(`/kiosk/${kioskId}`)
-        .then(({ data }) => {
-          const formatedData = {
-            ...data,
-            isKioskClosed: data.isKioskClosed === false ? "Yes" : "No",
-          };
-          setInitialValues(formatedData);
-        })
-        .catch((err) => console.error("err", err));
+      refreshKioskList(kioskId).then((data) => {
+        const formatedData = {
+          ...data,
+          isKioskClosed: data.isKioskClosed === false ? "Yes" : "No",
+        };
+        setInitialValues(formatedData);
+      });
     }
     kioskId && setCurrentKiosk();
-  }, [kioskId, setInitialValues]);
+  }, [kioskId]);
 
   return (
     <>
